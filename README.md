@@ -5,12 +5,21 @@
 <h1 align="center">NESS chess engine</h1>
 
 <p align="center">
+  <a href="https://github.com/matheolecompagnon/ness-chess-engine/actions">
+    <img src="https://img.shields.io/github/actions/workflow/status/matheolecompagnon/ness-chess-engine/ci.yml" alt="CI" />
+  </a>
+  <a href="https://github.com/matheolecompagnon/ness-chess-engine/releases">
+    <img src="https://img.shields.io/github/v/release/matheolecompagnon/ness-chess-engine?include_prereleases" alt="Release" />
+  </a>
   <a href="LICENSE">
-    <img src="https://shields.io" alt="License" />
+    <img src="https://img.shields.io/github/license/matheolecompagnon/ness-chess-engine" alt="License" />
   </a>
-  <a href="https://github.com">
-    <img src="https://shields.io" alt="Commits since latest release" />
+  <a href="https://github.com/matheolecompagnon/ness-chess-engine/commits/main">
+    <img src="https://img.shields.io/github/last-commit/matheolecompagnon/ness-chess-engine" alt="Last commit" />
   </a>
+  <img src="https://img.shields.io/badge/language-C11-blue" alt="C11" />
+  <img src="https://img.shields.io/badge/protocol-UCI-green" alt="UCI" />
+  <img src="https://img.shields.io/badge/platform-Linux-lightgrey" alt="Linux" />
 </p>
 
 ---
