@@ -1,0 +1,31 @@
+name: CI
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+
+jobs:
+  build-and-test:
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        movelist: [dynamic, linked]
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Install dependencies
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y gcc make libcunit1-dev
+
+      - name: Build
+        run: make MOVELIST=${{ matrix.movelist }} re
+
+      - name: Self-test (perft + NNUE consistency)
+        run: ./chess --selftest
+
+      - name: Unit tests (CUnit)
+        run: make MOVELIST=${{ matrix.movelist }} test_re
