@@ -1,0 +1,47 @@
+# Objets et binaires
+/obj/
+/chess
+/test_chess
+*.o
+*.out
+
+# Documentation générée (Doxygen) - on garde Doxyfile, mainpage.md, doxygen-extra.css
+/doc/html/
+/doc/latex/
+
+# Fichiers de sauvegarde d'éditeur
+*~
+.vscode/
+
+# Journaux et notes de travail locales (non versionnes)
+*.log
+Taches.txt
+
+# Binaire du benchmark
+/bench_ness
+
+# Banc de mesure Elo (bench/elo_match.py)
+/bench/.venv/
+/bench/match*.pgn
+/bench/probe*.pgn
+/bench/*.log
+
+# Tables de finales Syzygy (~940 Mo, re-telechargeables via tablebases/README.md)
+/tablebases/syzygy/*.rtbw
+/tablebases/syzygy/*.rtbz
+
+# livres d'ouverture
+/books/gm2001.bin
+/books/komodo.bin
+/books/rodent.bin
+
+# Fichiers de parties jouées
+/game/
+
+# Fichiers sources et de configurations des nnue internes
+/algorithm/src/embedded_nnue_768x256.c
+/algorithm/src/tiny.c
+/algorithm/headers/embedded_nnue_768x256_config.h
+/algorithm/headers/tiny_config.h
+/algorithm/headers/net_config.h
+/algorithm/nets/
