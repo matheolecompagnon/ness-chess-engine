@@ -29,20 +29,19 @@ OBJ_DIR = obj
 MOVELIST ?= dynamic
 MOVELIST_SRC = types/src/$(MOVELIST)_movelist.c
 
-# Réseau NNUE embarqué. Un fichier C définissant `nnue_net` (même format que ceux générés
-# par tools/nnue_to_c.py), déposé dans algorithm/src/<NET>.c, est lié à la compilation :
-#   make NET=mon_reseau                                     # algorithm/src/mon_reseau.c
-#   make NET=mon_reseau NNUE_HL=256 NNUE_INPUT=768 re       # réseau de taille différente
-#   make NET_SRC=/chemin/autre.c re                         # fichier n'importe où
-# Défaut : NET=nnue_stub. Si le fichier n'existe pas (dépôt public, sans poids), on lie
-# algorithm/src/nnue_stub.c : réseau à zéro, le moteur compile et tourne mais n'évalue rien.
-# CHANGER DE RÉSEAU OU DE DIMENSION IMPOSE UN 'make ... re' (la taille change l'ABI).
-NET ?= nnue_stub
+# Réseau NNUE embarqué : un fichier C définissant `nnue_net` (généré par tools/nnue_to_c.py)
+# dans algorithm/src/<NET>.c, avec algorithm/headers/<NET>_config.h :
+#   make NET=embedded_nnue_768x32 re   # réseau 32 neurones
+#   make NET=nnue_stub re              # évaluation nulle (tests, profilage)
+# Défaut : embedded_nnue_768x256. Si algorithm/src/$(NET).c n'existe pas, le stub est lié
+# avec un avertissement.
+# CHANGER DE RÉSEAU IMPOSE UN 'make ... re' (la taille change l'ABI).
+NET ?= embedded_nnue_768x256
 ifndef NET_SRC
   ifneq ($(wildcard algorithm/src/$(NET).c),)
     NET_SRC = algorithm/src/$(NET).c
   else
-    ifneq ($(filter-out clean fclean readme rapport elo-setup,$(or $(MAKECMDGOALS),all)),)
+    ifneq ($(filter-out clean fclean elo-setup,$(or $(MAKECMDGOALS),all)),)
       $(warning Fichier de poids algorithm/src/$(NET).c introuvable : lien du stub, evaluation neutre)
     endif
     NET_SRC = algorithm/src/nnue_stub.c
