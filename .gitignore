@@ -37,3 +37,6 @@ Taches.txt
 
 # Fichiers de parties jouées
 /game/
+
+# Fichier de configuration nnue généré
+algorithm/headers/net_config.h
