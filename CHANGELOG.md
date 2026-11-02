@@ -2,21 +2,21 @@
 
 ## [Non publié]
 
-### À venir
-- **Quiescence** : Prolongation de la recherche sur les captures et échecs (anti-effet d'horizon).
-- **Tri des coups** : Intégration des Killer moves et de la table d'historique.
-- **Règle des 50 coups** : Prise en compte de la nulle sans capture ni poussée de pion.
-- **Clé Zobrist** : Mise à jour incrémentale à chaque coup plutôt qu'un recalcul global.
-- **Contrôle UCI** : Recherche non bloquante avec support de stop et retours info depth.
-- **Multithreading** : Suppression de l'état global pour permettre la recherche parallèle.
-- **Poids NNUE :** Généraliser le plus possible l'importation des fichiers de coefficients.
-- **Poids embarqués :** Proposer un nnue "non nul" embarqué par défaut pour le moteur.
-- **Recherche :** Permettre le remplacement de l'algorithme Negamax par d'autres modules.
-- **Calcul HPC :** Intégrer des optimisations pour le calcul haute performance.
-- **Tests UCI :** Créer une suite de validation pour les commandes textes.
-- **Tests unitaires :** Étendre la couverture de test aux modules de recherche et d'évaluation.
+## [0.2.0] - 2026-11-02
 
-## [0.0.1] - 2026-10-29
+### Ajouté
+
+- **Réseaux NNUE embarqués :** `embedded_nnue_768x32` et `embedded_nnue_768x256`.
+
+### Modifié
+
+- Le réseau par défaut est `embedded_nnue_768x256`
+
+### À venir
+
+- Correction du clip de l'évaluation en corrélation avec le mate
+
+## [0.1.0-alpha] - 2026-10-29
 
 ### Ajouté
 - **Bitboards :** Modélisation de l'échiquier sur des masques de 64 bits.
@@ -37,5 +37,5 @@
 - **Suites CUnit :** Intégration de 42 tests unitaires validant 714 assertions.
 - **Harnais Python :** Scripts de calcul d'Elo et de matchs automatisés.
 
-[Non publié]: https://github.com
-[0.0.1] : https://github.com
+[Non publié]: https://github.com/matheolecompagnon/ness-chess-engine
+[0.1.0-alpha]: https://github.com/matheolecompagnon/ness-chess-engine/releases/tag/v0.1.0-alpha
