@@ -11,20 +11,19 @@ Ce guide rassemble les règles techniques et collaboratives pour développer sur
 * Pull Requests (PR) : passage obligatoire par une PR GitHub.
 * Périmètre d'une PR : un seul sujet, correctif ou fonctionnalité, par PR.
 
-### Sécurité des données
-* Fichiers exclus : interdiction de commiter des poids réels (.nnue).
-* Comportement par défaut : liaison automatique sur algorithm/src/nnue_stub.c.
-* Évaluation par défaut : le moteur stubbé renvoie un score de 0.
+### Gestion des données
+* Réseau par défaut : `embedded_nnue_768x256`. `NET=nnue_stub` lie un réseau nul (évaluation 0), pour les tests.
+* Ajout de poids : `embedded_nnue_INPUTxHL(_VERSION)`. Exemple : `embedded_nnue_768x256_2_0_0`
 
 ---
 
 ## Convention des commits et linéarité
 
 ### Syntaxe obligatoire
-Chaque commit utilise le format "type: description" en minuscules. Un espace est strictement obligatoire après les deux-points.
+Chaque commit utilise le format "type: description" en minuscules. Un espace est strictement obligatoire après les deux-points. Le langage utilisé est l'anglais.
 
-* Exemple valide : `feat: ajout du null-move pruning`
-* Exemple invalide : `feat:ajout du null-move pruning`
+* Exemple valide : `feat: add null-move pruning`
+* Exemple invalide : `feat:add null-move pruning`
 
 ### Types de commits et impact SemVer
 
@@ -50,8 +49,8 @@ Chaque commit utilise le format "type: description" en minuscules. Un espace est
 
 ### Commandes de base
 ```sh
-make            # Construit le binaire exécutable UCI ./chess
-make re         # Force la reconstruction complète du projet
+make      # Construit le binaire exécutable UCI ./chess
+make re   # Force la reconstruction complète du projet
 ```
 
 ### Variables de configuration du Makefile
@@ -59,9 +58,9 @@ Chaque modification de variable impose l'exécution de `make re`.
 
 | Variable | Rôle | Configuration par défaut |
 | :--- | :--- | :--- |
-| OPT | Options d'optimisation du compilateur | -O3 -march=native -flto |
+| OPT | Options d'optimisation du compilateur | -O3 -march=native -flto=auto |
 | MOVELIST | Implémentation de la pile de coups | dynamic ou linked |
-| NET | Nom du fichier d'évaluation (sans le .c) dans algorithm/src/ | nnue_stub |
+| NET | Nom du fichier d'évaluation (sans le .c) dans algorithm/src/ | `embedded_nnue_768x256` |
 | BOOK=1 | Active le livre d'ouverture Polyglot | Désactivé par défaut |
 | BOOK_PATH | Chemin du livre binaire | books/komodo.bin |
 
@@ -88,15 +87,22 @@ Chaque modification de variable impose l'exécution de `make re`.
 
 ### Commandes de test
 ```sh
-make test_re                       # Tests unitaires CUnit (pile dynamique)
-make MOVELIST=linked test_re       # Tests unitaires CUnit (pile chaînée)
-make re && ./chess --selftest      # Auto-test interne (doit renvoyer 0)
+make test_re                    # Tests unitaires CUnit (pile dynamique)
+make MOVELIST=linked test_re    # Tests unitaires CUnit (pile chaînée)
+make re && ./chess --selftest   # Auto-test interne (doit renvoyer 0)
 ```
 
 ### Processus d'intégration d'un test unitaire
 1. Écrire : créer la fonction test_xxx avec CU_ASSERT_* dans tests/src/test_<module>.c.
 2. Déclarer : ajouter le prototype dans tests/headers/test_<module>.h.
 3. Enregistrer : ajouter CU_add_test(suite, "Test xxx", test_xxx) dans tests/src/test_main.c.
+
+### Processus d'intégration d'un réseau
+1. Ajouter le réseau `algorithm/nets/embedded_nnue_X.nnue`
+2. Intégration : `tools/nnue_to_c.py` pour convertir le réseau. (voir [README.md](README.md))
+3. Commiter le `.nnue`, le `.c` et le `_config.h`
+4. Répercuter la liste de réseaux dans [README.md](README.md), et l'origine de la licence dans [algorithm/nets/README.md](algorithm/nets/README.md).
+
 
 ---
 
@@ -109,7 +115,7 @@ Séparation entre interfaces (headers/) et implémentations (src/) :
 * uci/ : protocole de communication texte et livre Polyglot.
 
 ### Choix techniques
-* Make/Unmake : modifications de l'échiquier en place (apply_move / undo_move). Aucune copie d'état.
+* Make/Unmake : modifications de l'échiquier en place (apply_move / undo_move).
 * Pile opaque : ne pas empiler dans une liste de coups en cours de parcours.
 * LTO (-flto) : obligatoire pour l'inlining cross-modules de evaluate et get_bit.
 
@@ -123,7 +129,7 @@ Cochez ces éléments localement avant de pousser sur GitHub :
 - [ ] Le test de flux UCI répond uciok, readyok et émet un bestmove.
 - [ ] Les gains de recherche sont chiffrés via le compteur de noeuds de `make bench`.
 - [ ] Les blocs de commentaires au format Doxygen (\brief, \param) sont présents dans les .h.
-- [ ] L'historique Git is rebasé et linéaire (`git rebase origin/main`).
+- [ ] L'historique Git est rebasé et linéaire (`git rebase origin/main`).
 
 ---
 
@@ -137,7 +143,7 @@ Cochez ces éléments localement avant de pousser sur GitHub :
 
 ---
 
-## 
+## Feuille de route
 
 ### TODO
 
@@ -149,7 +155,7 @@ Cochez ces éléments localement avant de pousser sur GitHub :
 - [ ] **Contrôle UCI** : Recherche non bloquante avec support de stop et retours info depth.
 - [ ] **Multithreading** : Suppression de l'état global pour permettre la recherche parallèle.
 - [ ] **Poids NNUE :** Généraliser le plus possible l'importation des fichiers de coefficients.
-- [ ] **Poids embarqués :** Proposer un nnue "non nul" embarqué par défaut pour le moteur.
+- [X] **Poids embarqués :** Proposer un nnue "non nul" embarqué par défaut pour le moteur.
 - [ ] **Recherche :** Permettre le remplacement de l'algorithme Negamax par d'autres modules.
 - [ ] **Calcul HPC :** Intégrer des optimisations pour le calcul haute performance.
 - [ ] **Tests UCI :** Créer une suite de validation pour les commandes textes.
