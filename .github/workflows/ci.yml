@@ -28,9 +28,6 @@ jobs:
       - name: Self-test (perft + NNUE consistency)
         run: ./chess --selftest
 
-      - name: Unit tests (CUnit)
-        run: make MOVELIST=${{ matrix.movelist }} NET=${{ matrix.net }} test_re
-
       - name: UCI smoke test
         run: |
           out=$(printf 'uci\nisready\nposition startpos\ngo depth 5\nquit\n' | ./chess)
@@ -38,3 +35,6 @@ jobs:
           echo "$out" | grep -q uciok
           echo "$out" | grep -q readyok
           echo "$out" | grep -q '^bestmove'
+
+      - name: Unit tests (CUnit)
+        run: make MOVELIST=${{ matrix.movelist }} NET=${{ matrix.net }} test_re
