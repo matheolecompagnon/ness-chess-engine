@@ -37,11 +37,3 @@ Taches.txt
 
 # Fichiers de parties jouées
 /game/
-
-# Fichiers sources et de configurations des nnue internes
-/algorithm/src/embedded_nnue_768x256.c
-/algorithm/src/tiny.c
-/algorithm/headers/embedded_nnue_768x256_config.h
-/algorithm/headers/tiny_config.h
-/algorithm/headers/net_config.h
-/algorithm/nets/
