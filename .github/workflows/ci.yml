@@ -11,6 +11,7 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
+        net: [nnue_stub, embedded_nnue_768x32, embedded_nnue_768x256]
         movelist: [dynamic, linked]
 
     steps:
@@ -22,10 +23,18 @@ jobs:
           sudo apt-get install -y gcc make libcunit1-dev
 
       - name: Build
-        run: make MOVELIST=${{ matrix.movelist }} re
+        run: make MOVELIST=${{ matrix.movelist }} NET=${{ matrix.net }} re
 
       - name: Self-test (perft + NNUE consistency)
         run: ./chess --selftest
 
       - name: Unit tests (CUnit)
-        run: make MOVELIST=${{ matrix.movelist }} test_re
+        run: make MOVELIST=${{ matrix.movelist }} NET=${{ matrix.net }} test_re
+
+      - name: UCI smoke test
+        run: |
+          out=$(printf 'uci\nisready\nposition startpos\ngo depth 5\nquit\n' | ./chess)
+          echo "$out"
+          echo "$out" | grep -q uciok
+          echo "$out" | grep -q readyok
+          echo "$out" | grep -q '^bestmove'
