@@ -1,1 +1,6 @@
-Mathéo Lecompagnon (matheolecompagnon)
+Auteur principal & Mainteneur :
+- Mathéo Lecompagnon (@matheolecompagnon) : Moteur d'échecs, inférence NNUE, algorithmes de recherche, Makefile et documentation et benchmarks.
+
+Contributeurs :
+- Ajyad Hassani (@Ajy-code) : Structure et intégration des fichiers NNUE (x32 et x256).
+- Killian Adrover (@killianadrover) : Entraînement et génération des poids des réseaux NNUE (x32 et x256).
