@@ -138,11 +138,11 @@ score evaluate(chessboard cb) {
   eval *= NNUE_SCALE;
   eval /= (NNUE_QA * NNUE_QB);
 
-  // Clamp de sécurité
-  if (eval >= SCORE_INF) {
-    eval = SCORE_INF - 1;
-  } else if (eval <= -SCORE_INF) {
-    eval = -SCORE_INF + 1;
+  // Clip de sécurité
+  if (eval >= SCORE_MATE) {
+    eval = SCORE_MATE - 1;
+  } else if (eval <= -SCORE_MATE) {
+    eval = -SCORE_MATE + 1;
   }
 
   return (score)eval; // Score du point de vue du joueur au trait (positif = à

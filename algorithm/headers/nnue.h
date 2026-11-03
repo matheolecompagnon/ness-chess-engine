@@ -34,6 +34,20 @@ typedef int16_t score;
 #define SCORE_INF ((score)30000)
 
 /**
+ * \brief SCORE_MATE est le score d'un mat subi immédiatement (-SCORE_MATE pour
+ * le joueur maté).
+ * \details Un mat atteint après \b ply demi-coups vaut -SCORE_MATE + ply : un
+ * mat lointain est donc moins grave qu'un mat proche, ce qui fait résister le
+ * moteur le plus longtemps possible dans une position perdue, et conclure au
+ * plus court dans une position gagnée.
+ *
+ * Il est pris nettement au-dessus de toute évaluation plausible, mais
+ * strictement sous SCORE_INF, pour qu'un score de mat ne puisse être confondu
+ * ni avec une évaluation ordinaire, ni avec l'infini de la fenêtre alpha-bêta.
+ */
+#define SCORE_MATE ((score)29000)
+
+/**
  * \brief evaluate(cb) donne le score de l'échiquier \b cb.
  * \details Utilise les accumulateurs cb->acc déjà à jour, sans les recalculer.
  * Le score est rendu du point de vue du joueur au trait (positif = à son
