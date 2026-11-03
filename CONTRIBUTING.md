@@ -160,7 +160,3 @@ Cochez ces éléments localement avant de pousser sur GitHub :
 - [ ] **Calcul HPC :** Intégrer des optimisations pour le calcul haute performance.
 - [ ] **Tests UCI :** Créer une suite de validation pour les commandes textes.
 - [ ] **Tests unitaires :** Étendre la couverture de test aux modules de recherche et d'évaluation.
-
-### Attention
-
-- Le clamp de l'évaluation borne à SCORE_INF 30000, alors que le SCORE_MATE vaut 29000
