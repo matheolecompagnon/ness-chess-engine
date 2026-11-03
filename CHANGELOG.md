@@ -12,9 +12,10 @@
 
 - Le réseau par défaut est `embedded_nnue_768x256`
 
-### À venir
+### Corrigé
 
 - Correction du clip de l'évaluation en corrélation avec le mate
+
 
 ## [0.1.0-alpha] - 2026-10-29
 
